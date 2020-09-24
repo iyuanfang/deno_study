@@ -5,15 +5,26 @@ import { MongoClient } from "https://deno.land/x/mongo/mod.ts";
 const client = new MongoClient();
 // 建立连接
 client.connectWithUri("mongodb://localhost:27017");
+// 读取db，如果没有会自动创建
 const db = client.database("test");
 
+// 读取collection，如果没有会自动创建
 const people=db.collection("people");
 
 console.log("init mongodb")
 
-// people.insertOne({name:"yuanfang"})
-// people.insertOne({name:"tingting",sex:"F"})
-people.deleteMany({name:"yuanfang"})
+//先清空表（collection）
+people.deleteMany({})
 
-let p=await people.findOne({});
+//插入一条，参数为json串
+people.insertOne({name:"yuanfang"})
+
+//查找一条，就是刚才插入的
+let p=await people.findOne({name:"yuanfang"});
 console.log(p);
+
+//更新这一条，名字改成yuanfang2
+people.updateOne({name:"yuanfang"},{$set:{name:"yuanfang2"}})
+p=await people.findOne({});
+console.log(p);
+
