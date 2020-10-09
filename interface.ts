@@ -1,4 +1,3 @@
 export interface ICalc {
-    calc(): number
+  calc(): number;
 }
-
